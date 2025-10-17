@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StreamFlix - Premium Streaming</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #4e67b1;
+            color: #ffffff;
+            line-height: 1.6;
+        }
+
+        /* Header Styles */
+        header {
+            background: linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 100%);
+            padding: 20px 50px;
+            position: fixed;
+            width: 100%;
+            z-index: 100;
+            transition: background-color 0.3s;
+        }
+
+        header.scrolled {
+            background-color: #4e67b1;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-brand h1 {
+            color: #ba852a;
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        .nav-links a {
+            color: #ffffff;
+            text-decoration: none;
+            margin-left: 20px;
+            font-weight: 400;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #ba852a;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 80vh;
+            background: linear-gradient(rgba(78, 103, 177, 0.7), rgba(78, 103, 177, 0.3)), 
+                        url('https://images.unsplash.com/photo-1489599804158-8b9f2ce94598?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            padding: 0 50px;
+            position: relative;
+        }
+
+        .hero-content {
+            max-width: 600px;
+            z-index: 2;
+        }
+
+        .hero h2 {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #ba852a;
+        }
+
+        .hero p {
+            font-size: 18px;
+            font-weight: 400;
+            margin-bottom: 30px;
+            max-width: 500px;
+        }
+
+        .cta-button {
+            background-color: #ba852a;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 16px;
+            font-weight: 700;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .cta-button:hover {
+            background-color: #a67422;
+        }
+
+        /* Content Sections */
+        .content-section {
+            padding: 50px;
+        }
+
+        .section-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #ba852a;
+        }
+
+        /* Video Carousel */
+        .carousel {
+            display: flex;
+            overflow-x: auto;
+            gap: 15px;
+            padding: 10px 0;
+            scrollbar-width: none;
+        }
+
+        .carousel::-webkit-scrollbar {
+            display: none;
+        }
+
+        .video-card {
+            min-width: 250px;
+            background-color: rgba(0, 0, 0, 0.3);
+            border-radius: 4px;
+            overflow: hidden;
+            transition: transform 0.3s;
+            cursor: pointer;
+        }
+
+        .video-card:hover {
+            transform: scale(1.05);
+        }
+
+        .video-thumbnail {
+            width: 100%;
+            height: 140px;
+            object-fit: cover;
+        }
+
+        .video-info {
+            padding: 15px;
+        }
+
+        .video-title {
+            font-weight: 700;
+            margin-bottom: 5px;
+            color: #ba852a;
+        }
+
+        .video-desc {
+            font-size: 14px;
+            font-weight: 400;
+            color: #cccccc;
+        }
+
+        /* Video Player */
+        .video-player-container {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .video-player {
+            width: 80%;
+            max-width: 1000px;
+            background-color: #000;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .player-header {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px;
+            background-color: rgba(0, 0, 0, 0.7);
+        }
+
+        .player-title {
+            font-weight: 700;
+            color: #ba852a;
+        }
+
+        .close-player {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        video {
+            width: 100%;
+            height: auto;
+        }
+
+        /* Footer */
+        footer {
+            background-color: rgba(0, 0, 0, 0.3);
+            padding: 30px 50px;
+            text-align: center;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .footer-links a {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 400;
+        }
+
+        .footer-links a:hover {
+            color: #ba852a;
+        }
+
+        .copyright {
+            font-size: 14px;
+            color: #cccccc;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            header {
+                padding: 15px 20px;
+            }
+            
+            .hero {
+                padding: 0 20px;
+                height: 60vh;
+            }
+            
+            .hero h2 {
+                font-size: 32px;
+            }
+            
+            .content-section {
+                padding: 30px 20px;
+            }
+            
+            .video-card {
+                min-width: 180px;
+            }
+            
+            .video-player {
+                width: 95%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header id="header">
+        <nav class="navbar">
+            <div class="nav-brand">
+                <h1>STREAMFLIX</h1>
+            </div>
+            <div class="nav-links">
+                <a href="#home">Home</a>
+                <a href="#movies">Movies</a>
+                <a href="#series">TV Series</a>
+                <a href="#new">New & Popular</a>
+                <a href="#mylist">My List</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h2>Unlimited Movies, TV Shows, and More.</h2>
+            <p>Watch anywhere. Cancel anytime. Ready to watch? Enter your email to create or restart your membership.</p>
+            <button class="cta-button">GET STARTED</button>
+        </div>
+    </section>
+
+    <!-- Featured Movies -->
+    <section class="content-section" id="movies">
+        <h2 class="section-title">Popular on StreamFlix</h2>
+        <div class="carousel">
+            <!-- Movie cards will be populated by JavaScript -->
+        </div>
+    </section>
+
+    <!-- TV Series -->
+    <section class="content-section" id="series">
+        <h2 class="section-title">TV Series</h2>
+        <div class="carousel">
+            <!-- TV series cards will be populated by JavaScript -->
+        </div>
+    </section>
+
+    <!-- New Releases -->
+    <section class="content-section" id="new">
+        <h2 class="section-title">New Releases</h2>
+        <div class="carousel">
+            <!-- New release cards will be populated by JavaScript -->
+        </div>
+    </section>
+
+    <!-- Video Player -->
+    <div class="video-player-container" id="videoPlayer">
+        <div class="video-player">
+            <div class="player-header">
+                <div class="player-title" id="playerTitle">Movie Title</div>
+                <button class="close-player" id="closePlayer">&times;</button>
+            </div>
+            <video id="mainVideo" controls>
+                <source src="" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-links">
+            <a href="#">FAQ</a>
+            <a href="#">Help Center</a>
+            <a href="#">Terms of Use</a>
+            <a href="#">Privacy</a>
+            <a href="#">Cookie Preferences</a>
+            <a href="#">Corporate Information</a>
+        </div>
+        <p class="copyright">© 2023 StreamFlix. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Sample video data
+        const videoData = {
+            popular: [
+                { id: 1, title: "The Last Adventure", description: "Action • 2023", thumbnail: "https://images.unsplash.com/photo-1536440136628-849c177e76a1?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60", videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" },
+                { id: 2, title: "Midnight in Paris", description: "Romance • 2022", thumbnail: "https://images.unsplash.com/photo-1485846234645-a62644f84728?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60", videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4" },
+                { id: 3, title: "Cyber Revolution", description: "Sci-Fi • 2023", thumbnail: "https://images.unsplash.com/photo-1560169897-fc0cdbdfa4d5?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60", videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4" },
+                { id: 4, title: "The Lost Kingdom", description: "Fantasy • 2021", thumbnail: "https://images.unsplash.com/photo-1594909122845-11baa439b7bf?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60", videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4" },
+                { id: 5, title: "Ocean's Depth", description: "Documentary • 2023", thumbnail: "https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60", videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4" }
+            ],
+            series: [
+                { id: 6, title: "Dark Secrets", description: "Thriller • Season 3", thumbnail: "https://images.unsplash.com/photo-1551029506-0807df4e2031?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60", videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4" },
+                { id: 7, title: "Space Explorers", description: "Sci-Fi • Season 2", thumbnail: "https://images.unsplash.com/photo-1535016120720-40c646be5580?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60", videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4" },
+                { id: 8, title: "Medical Drama", description: "Drama • Season 5", thumbnail: "https://images.unsplash.com/photo-1551029506-0807df4e2031?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60", videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4" },
+                { id: 9, title: "Comedy Central", description: "Comedy • Season 1", thumbnail: "https://images.unsplash.com/photo-1534447677768-be436bb09401?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60", videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/SubaruOutbackOnStreetAndDirt.mp4" },
+                { id: 10, title: "Historical Times", description: "History • Season 2", thumbnail: "https://images.unsplash.com/photo-1594909122845-11baa439b7bf?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60", videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4" }
+            ],
+            newReleases: [
+                { id: 11, title: "The Final Chapter", description: "Action • 2023", thumbnail: "https://images.unsplash.com/photo-1489599804158-8b9f2ce94598?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60", videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/VolkswagenGTIReview.mp4" },
+                { id: 12, title: "Mystery Island", description: "Adventure • 2023", thumbnail: "https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60", videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4" },
+                { id: 13, title: "Future World", description: "Sci-Fi • 2023", thumbnail: "https://images.unsplash.com/photo-1536440136628-849c177e76a1?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60", videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WhatCarCanYouGetForAGrand.mp4" },
+                { id: 14, title: "Love in Tokyo", description: "Romance • 2023", thumbnail: "https://images.unsplash.com/photo-1560169897-fc0cdbdfa4d5?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60", videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" },
+                { id: 15, title: "The Heist", description: "Crime • 2023", thumbnail: "https://images.unsplash.com/photo-1485846234645-a62644f84728?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60", videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4" }
+            ]
+        };
+
+        // DOM Elements
+        const videoPlayer = document.getElementById('videoPlayer');
+        const mainVideo = document.getElementById('mainVideo');
+        const playerTitle = document.getElementById('playerTitle');
+        const closePlayer = document.getElementById('closePlayer');
+        const header = document.getElementById('header');
+
+        // Populate video carousels
+        document.addEventListener('DOMContentLoaded', () => {
+            // Popular movies
+            const popularCarousel = document.querySelector('#movies .carousel');
+            videoData.popular.forEach(video => {
+                popularCarousel.appendChild(createVideoCard(video));
+            });
+
+            // TV series
+            const seriesCarousel = document.querySelector('#series .carousel');
+            videoData.series.forEach(video => {
+                seriesCarousel.appendChild(createVideoCard(video));
+            });
+
+            // New releases
+            const newReleasesCarousel = document.querySelector('#new .carousel');
+            videoData.newReleases.forEach(video => {
+                newReleasesCarousel.appendChild(createVideoCard(video));
+            });
+
+            // Header scroll effect
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 100) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                }
+            });
+        });
+
+        // Create video card element
+        function createVideoCard(video) {
+            const card = document.createElement('div');
+            card.className = 'video-card';
+            card.innerHTML = `
+                <img src="${video.thumbnail}" alt="${video.title}" class="video-thumbnail">
+                <div class="video-info">
+                    <div class="video-title">${video.title}</div>
+                    <div class="video-desc">${video.description}</div>
+                </div>
+            `;
+            
+            card.addEventListener('click', () => {
+                playVideo(video);
+            });
+            
+            return card;
+        }
+
+        // Play video function
+        function playVideo(video) {
+            playerTitle.textContent = video.title;
+            mainVideo.src = video.videoUrl;
+            videoPlayer.style.display = 'flex';
+            mainVideo.play();
+        }
+
+        // Close video player
+        closePlayer.addEventListener('click', () => {
+            videoPlayer.style.display = 'none';
+            mainVideo.pause();
+        });
+
+        // Close video player when clicking outside
+        videoPlayer.addEventListener('click', (e) => {
+            if (e.target === videoPlayer) {
+                videoPlayer.style.display = 'none';
+                mainVideo.pause();
+            }
+        });
+    </script>
+</body>
+</html>
