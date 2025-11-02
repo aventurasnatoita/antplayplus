@@ -1,0 +1,1084 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AntPlay+</title>
+    <style>
+        :root {
+            --primary: #014c4f;
+            --dark: #000000;
+            --light: #ffb639;
+            --gray: #ffffff;
+            --dark-gray: #2f2f2f;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', Arial, sans-serif;
+        }
+        
+        body {
+            background-color: var(--primary);
+            color: var(--light);
+            line-height: 1.6;
+        }
+        
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+        
+        button {
+            cursor: pointer;
+            border: none;
+            outline: none;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header */
+        header {
+            background-color: rgba(20, 20, 20, 0.9);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 15px 0;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            color: var(--light);
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 20px;
+        }
+        
+        nav ul li a {
+            font-size: 16px;
+            transition: color 0.3s;
+        }
+        
+        nav ul li a:hover {
+            color: var(--light);
+        }
+        
+        /* Hero Section */
+        .hero {
+            height: 80vh;
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
+                        url('https://images.unsplash.com/photo-1489599809505-7ed0abfe5343?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') no-repeat center center/cover;
+            display: flex;
+            align-items: center;
+            margin-top: 60px;
+        }
+        
+        .hero-content {
+            max-width: 600px;
+        }
+        
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            color: var(--light);
+        }
+        
+        .hero p {
+            font-size: 18px;
+            margin-bottom: 30px;
+            color: var(--gray);
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--light);
+            color: var(--dark);
+            padding: 12px 24px;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        
+        .btn:hover {
+            background-color: #e6a02e;
+            transform: translateY(-2px);
+        }
+        
+        /* Content Sections */
+        section {
+            padding: 50px 0;
+        }
+        
+        .section-title {
+            font-size: 24px;
+            margin-bottom: 20px;
+            border-left: 4px solid var(--light);
+            padding-left: 10px;
+            color: var(--light);
+        }
+        
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+        }
+        
+        .content-card {
+            background-color: var(--dark-gray);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .content-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .content-card img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+        }
+        
+        .content-info {
+            padding: 15px;
+        }
+        
+        .content-info h3 {
+            font-size: 16px;
+            margin-bottom: 5px;
+            color: var(--light);
+        }
+        
+        .content-info p {
+            font-size: 14px;
+            color: var(--gray);
+        }
+        
+        /* Footer */
+        footer {
+            background-color: #000;
+            padding: 40px 0;
+            text-align: center;
+            border-top: 2px solid var(--light);
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+            gap: 20px;
+        }
+        
+        .footer-links a {
+            color: var(--gray);
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: var(--light);
+        }
+        
+        .copyright {
+            color: var(--gray);
+            font-size: 14px;
+        }
+        
+        /* Movie Details Page */
+        .movie-details {
+            margin-top: 80px;
+            padding: 40px 0;
+            min-height: calc(100vh - 80px);
+        }
+        
+        .movie-header {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .movie-poster {
+            flex: 0 0 300px;
+        }
+        
+        .movie-poster img {
+            width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+        
+        .movie-info {
+            flex: 1;
+        }
+        
+        .movie-info h1 {
+            font-size: 36px;
+            margin-bottom: 10px;
+            color: var(--light);
+        }
+        
+        .movie-meta {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            color: var(--gray);
+            flex-wrap: wrap;
+        }
+        
+        .movie-meta span {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+        
+        .movie-description {
+            margin-bottom: 30px;
+            line-height: 1.8;
+            color: var(--gray);
+            font-size: 16px;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background-color: var(--dark-gray);
+            border-radius: 3px;
+            margin-bottom: 10px;
+            overflow: hidden;
+        }
+        
+        .progress {
+            height: 100%;
+            background-color: var(--light);
+            transition: width 0.3s;
+        }
+        
+        .progress-text {
+            font-size: 14px;
+            color: var(--gray);
+            margin-bottom: 20px;
+        }
+        
+        /* Player */
+        .player-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #000;
+            z-index: 2000;
+            display: none;
+        }
+        
+        .player-header {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.7), transparent);
+            z-index: 10;
+            transition: opacity 0.3s;
+        }
+        
+        .player-close {
+            background: none;
+            color: white;
+            font-size: 24px;
+            padding: 10px;
+            border-radius: 50%;
+            transition: background-color 0.3s;
+        }
+        
+        .player-close:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .player-video {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        
+        .player-controls {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 20px;
+            background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 10;
+            transition: opacity 0.3s;
+        }
+        
+        .progress-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .time-display {
+            color: white;
+            font-size: 14px;
+            min-width: 100px;
+        }
+        
+        #progress-bar {
+            flex: 1;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 3px;
+            outline: none;
+            cursor: pointer;
+        }
+        
+        #progress-bar::-webkit-slider-thumb {
+            appearance: none;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: var(--light);
+            cursor: pointer;
+        }
+        
+        .player-buttons {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .player-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            font-size: 18px;
+            padding: 8px 12px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        
+        .player-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        
+        .quality-selector, .subtitle-selector {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        .quality-selector option, .subtitle-selector option {
+            background: #333;
+            color: white;
+        }
+        
+        /* Loading State */
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 200px;
+            font-size: 18px;
+            color: var(--gray);
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .movie-header {
+                flex-direction: column;
+            }
+            
+            .movie-poster {
+                flex: 0 0 auto;
+                max-width: 300px;
+                margin: 0 auto;
+            }
+            
+            .hero h1 {
+                font-size: 36px;
+            }
+            
+            .content-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+            
+            .player-buttons {
+                gap: 10px;
+            }
+            
+            .player-btn, .quality-selector, .subtitle-selector {
+                font-size: 14px;
+                padding: 6px 8px;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            nav ul {
+                gap: 10px;
+            }
+            
+            nav ul li {
+                margin-left: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-content">
+            <a href="#" class="logo">ANTPLAY+</a>
+            <nav>
+                <ul>
+                    <li><a href="#inicio">Início</a></li>
+                    <li><a href="#filmes">Filmes</a></li>
+                    <li><a href="#cartaz">Cartaz de Natal</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main id="main-content">
+        <!-- Home Page -->
+        <section class="hero" id="inicio">
+            <div class="container hero-content">
+                <h1>Filmes, séries e muito mais.</h1>
+                <p>O melhor streaming gratuito, e sem anúncios.</p>
+                <a href="#filmes" class="btn">Explora o Catálogo</a>
+            </div>
+        </section>
+
+        <section id="filmes">
+            <div class="container">
+                <h2 class="section-title">Em Destaque</h2>
+                <div class="content-grid" id="featured-content">
+                    <div class="loading">A carregar conteúdos...</div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <div class="container">
+                <h2 class="section-title">Novos Lançamentos</h2>
+                <div class="content-grid" id="new-releases">
+                    <div class="loading">A carregar conteúdos...</div>
+                </div>
+            </div>
+        </section>
+
+        <section id="cartaz">
+            <div class="container">
+                <h2 class="section-title">Cartaz de Natal</h2>
+                <div class="content-grid" id="christmas-content">
+                    <div class="loading">A carregar conteúdos de Natal...</div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-links">
+                <a href="#">Perguntas Frequentes</a>
+                <a href="#">Ajuda</a>
+                <a href="#">Termos de Utilização</a>
+                <a href="#">Privacidade</a>
+                <a href="#">Preferências de Cookies</a>
+                <a href="#">Informações Corporativas</a>
+            </div>
+            <p class="copyright">© 2025 AntPlay+. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- Movie Details Page (hidden by default) -->
+    <div id="movie-details-page" style="display: none;">
+        <section class="movie-details">
+            <div class="container">
+                <div class="movie-header">
+                    <div class="movie-poster">
+                        <img id="detail-poster" src="" alt="Movie Poster">
+                    </div>
+                    <div class="movie-info">
+                        <h1 id="detail-title">Título do Filme</h1>
+                        <div class="movie-meta">
+                            <span id="detail-year">2023</span>
+                            <span id="detail-genre">Ação, Aventura</span>
+                            <span id="detail-duration">120 min</span>
+                        </div>
+                        <p class="movie-description" id="detail-description">
+                            Descrição do filme será carregada aqui.
+                        </p>
+                        <div class="progress-bar">
+                            <div class="progress" id="detail-progress"></div>
+                        </div>
+                        <p class="progress-text" id="detail-progress-text">Ainda não viste este filme.</p>
+                        <button class="btn" id="play-btn">Reproduzir</button>
+                        <button class="btn" style="background-color: var(--dark-gray); color: var(--light); margin-left: 10px;" onclick="goBack()">Voltar</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Video Player -->
+    <div class="player-container" id="player-container">
+        <div class="player-header">
+            <span id="player-title">Título do Filme</span>
+            <button class="player-close" id="player-close">✕</button>
+        </div>
+        <video class="player-video" id="player-video">
+            <source src="" type="video/mp4">
+            O teu navegador não suporta o elemento de vídeo.
+        </video>
+        <div class="player-controls">
+            <div class="progress-controls">
+                <span class="time-display" id="current-time">0:00</span>
+                <input type="range" id="progress-bar" min="0" max="100" value="0">
+                <span class="time-display" id="total-time">0:00</span>
+            </div>
+            <div class="player-buttons">
+                <button class="player-btn" id="rewind-btn">⏪ 10s</button>
+                <button class="player-btn" id="play-pause-btn">⏸️</button>
+                <button class="player-btn" id="forward-btn">⏩ 10s</button>
+                <select class="quality-selector" id="quality-selector">
+                    <option value="auto">Auto</option>
+                    <option value="1080">1080p</option>
+                    <option value="720">720p</option>
+                    <option value="480">480p</option>
+                </select>
+                <select class="subtitle-selector" id="subtitle-selector">
+                    <option value="off">Sem legendas</option>
+                    <option value="pt">Português</option>
+                    <option value="en">Inglês</option>
+                    <option value="es">Espanhol</option>
+                </select>
+                <button class="player-btn" id="fullscreen-btn">⛶</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sample movie data
+        const movies = [
+            {
+                id: 1,
+                title: "Aventura Espacial",
+                year: 2023,
+                genre: "Ficção Científica, Aventura",
+                duration: "128 min",
+                description: "Em um futuro distante, uma equipe de exploradores espaciais descobre um planeta habitável, mas logo percebem que não estão sozinhos.",
+                poster: "https://images.unsplash.com/photo-1446776653964-20c1d3a81b06?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80",
+                video: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+                progress: 0,
+                featured: true,
+                christmas: false
+            },
+            {
+                id: 2,
+                title: "O Mistério do Tempo",
+                year: 2022,
+                genre: "Drama, Mistério",
+                duration: "115 min",
+                description: "Um cientista descobre uma maneira de viajar no tempo, mas suas ações têm consequências imprevistas que ameaçam a realidade.",
+                poster: "https://images.unsplash.com/photo-1534447677768-be436bb09401?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80",
+                video: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
+                progress: 0,
+                featured: true,
+                christmas: false
+            },
+            {
+                id: 3,
+                title: "Heróis Urbanos",
+                year: 2023,
+                genre: "Ação, Aventura",
+                duration: "142 min",
+                description: "Um grupo de cidadãos comuns desenvolve habilidades especiais e deve unir forças para salvar a cidade de uma ameaça iminente.",
+                poster: "https://images.unsplash.com/photo-1485846234645-a62644f84728?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80",
+                video: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+                progress: 0,
+                featured: false,
+                christmas: false
+            },
+            {
+                id: 4,
+                title: "Amores Cruzados",
+                year: 2021,
+                genre: "Romance, Drama",
+                duration: "98 min",
+                description: "Histórias de amor entrelaçadas em uma pequena cidade, onde os destinos de várias pessoas se cruzam de maneiras inesperadas.",
+                poster: "https://images.unsplash.com/photo-1478720568477-828d9a8787e3?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80",
+                video: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
+                progress: 0,
+                featured: false,
+                christmas: false
+            },
+            {
+                id: 5,
+                title: "Milagre de Natal",
+                year: 2024,
+                genre: "Família, Natal",
+                duration: "95 min",
+                description: "Uma história comovente sobre a magia do Natal que transforma a vida de uma pequena comunidade.",
+                poster: "https://images.unsplash.com/photo-1574473329664-001fe4687d3e?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80",
+                video: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4",
+                progress: 0,
+                featured: true,
+                christmas: true
+            },
+            {
+                id: 6,
+                title: "Noite Feliz",
+                year: 2023,
+                genre: "Comédia, Natal",
+                duration: "88 min",
+                description: "Uma família disfuncional se reúne para o Natal e situações hilariantes acontecem.",
+                poster: "https://images.unsplash.com/photo-1548358328-0b7c8bd90e6c?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80",
+                video: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4",
+                progress: 0,
+                featured: false,
+                christmas: true
+            }
+        ];
+
+        // Initialize the app
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('AntPlay+ inicializado');
+            // Load movie progress from localStorage
+            loadMovieProgress();
+            
+            // Render content on home page
+            renderFeaturedContent();
+            renderNewReleases();
+            renderChristmasContent();
+            
+            // Set up event listeners
+            setupEventListeners();
+            
+            // Smooth scrolling for anchor links
+            setupSmoothScrolling();
+        });
+
+        // Smooth scrolling
+        function setupSmoothScrolling() {
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+        }
+
+        // Load movie progress from localStorage
+        function loadMovieProgress() {
+            try {
+                const savedProgress = localStorage.getItem('antplay_movie_progress');
+                if (savedProgress) {
+                    const progressData = JSON.parse(savedProgress);
+                    movies.forEach(movie => {
+                        if (progressData[movie.id]) {
+                            movie.progress = progressData[movie.id];
+                        }
+                    });
+                }
+            } catch (error) {
+                console.log('Erro ao carregar progresso:', error);
+            }
+        }
+
+        // Save movie progress to localStorage
+        function saveMovieProgress(movieId, progress) {
+            try {
+                let progressData = JSON.parse(localStorage.getItem('antplay_movie_progress') || '{}');
+                progressData[movieId] = progress;
+                localStorage.setItem('antplay_movie_progress', JSON.stringify(progressData));
+            } catch (error) {
+                console.log('Erro ao salvar progresso:', error);
+            }
+        }
+
+        // Render featured content
+        function renderFeaturedContent() {
+            const featuredContainer = document.getElementById('featured-content');
+            if (!featuredContainer) return;
+            
+            // Get featured movies
+            const featuredMovies = movies.filter(movie => movie.featured);
+            
+            featuredContainer.innerHTML = '';
+            
+            if (featuredMovies.length === 0) {
+                featuredContainer.innerHTML = '<div class="loading">Nenhum conteúdo em destaque</div>';
+                return;
+            }
+            
+            featuredMovies.forEach(movie => {
+                const progressPercent = movie.progress;
+                
+                const movieCard = document.createElement('div');
+                movieCard.className = 'content-card';
+                movieCard.innerHTML = `
+                    <img src="${movie.poster}" alt="${movie.title}" loading="lazy">
+                    <div class="content-info">
+                        <h3>${movie.title}</h3>
+                        <p>${movie.year} • ${movie.genre.split(',')[0]}</p>
+                        ${progressPercent > 0 ? `
+                            <div class="progress-bar" style="margin-top: 10px;">
+                                <div class="progress" style="width: ${progressPercent}%"></div>
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+                movieCard.addEventListener('click', () => showMovieDetails(movie.id));
+                featuredContainer.appendChild(movieCard);
+            });
+        }
+
+        // Render new releases
+        function renderNewReleases() {
+            const newReleasesContainer = document.getElementById('new-releases');
+            if (!newReleasesContainer) return;
+            
+            // Get all non-Christmas movies as new releases
+            const newReleases = movies.filter(movie => !movie.christmas);
+            
+            newReleasesContainer.innerHTML = '';
+            
+            newReleases.forEach(movie => {
+                const progressPercent = movie.progress;
+                
+                const movieCard = document.createElement('div');
+                movieCard.className = 'content-card';
+                movieCard.innerHTML = `
+                    <img src="${movie.poster}" alt="${movie.title}" loading="lazy">
+                    <div class="content-info">
+                        <h3>${movie.title}</h3>
+                        <p>${movie.year} • ${movie.genre.split(',')[0]}</p>
+                        ${progressPercent > 0 ? `
+                            <div class="progress-bar" style="margin-top: 10px;">
+                                <div class="progress" style="width: ${progressPercent}%"></div>
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+                movieCard.addEventListener('click', () => showMovieDetails(movie.id));
+                newReleasesContainer.appendChild(movieCard);
+            });
+        }
+
+        // Render Christmas content
+        function renderChristmasContent() {
+            const christmasContainer = document.getElementById('christmas-content');
+            if (!christmasContainer) return;
+            
+            // Get Christmas movies
+            const christmasMovies = movies.filter(movie => movie.christmas);
+            
+            christmasContainer.innerHTML = '';
+            
+            if (christmasMovies.length === 0) {
+                christmasContainer.innerHTML = '<div class="loading">Nenhum conteúdo de Natal disponível</div>';
+                return;
+            }
+            
+            christmasMovies.forEach(movie => {
+                const progressPercent = movie.progress;
+                
+                const movieCard = document.createElement('div');
+                movieCard.className = 'content-card';
+                movieCard.innerHTML = `
+                    <img src="${movie.poster}" alt="${movie.title}" loading="lazy">
+                    <div class="content-info">
+                        <h3>${movie.title}</h3>
+                        <p>${movie.year} • ${movie.genre.split(',')[0]}</p>
+                        ${progressPercent > 0 ? `
+                            <div class="progress-bar" style="margin-top: 10px;">
+                                <div class="progress" style="width: ${progressPercent}%"></div>
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+                movieCard.addEventListener('click', () => showMovieDetails(movie.id));
+                christmasContainer.appendChild(movieCard);
+            });
+        }
+
+        // Show movie details
+        function showMovieDetails(movieId) {
+            const movie = movies.find(m => m.id === movieId);
+            if (!movie) return;
+            
+            // Hide main content
+            document.querySelector('main').style.display = 'none';
+            document.querySelector('footer').style.display = 'none';
+            
+            // Show movie details
+            const movieDetailsPage = document.getElementById('movie-details-page');
+            movieDetailsPage.style.display = 'block';
+            
+            // Populate movie details
+            document.getElementById('detail-poster').src = movie.poster;
+            document.getElementById('detail-title').textContent = movie.title;
+            document.getElementById('detail-year').textContent = movie.year;
+            document.getElementById('detail-genre').textContent = movie.genre;
+            document.getElementById('detail-duration').textContent = movie.duration;
+            document.getElementById('detail-description').textContent = movie.description;
+            
+            // Update progress
+            const progressPercent = movie.progress;
+            document.getElementById('detail-progress').style.width = `${progressPercent}%`;
+            
+            if (movie.progress > 0) {
+                document.getElementById('detail-progress-text').textContent = 
+                    `Já viste ${Math.round(movie.progress)}% deste filme.`;
+            } else {
+                document.getElementById('detail-progress-text').textContent = 
+                    'Ainda não viste este filme.';
+            }
+            
+            // Set up play button
+            document.getElementById('play-btn').onclick = () => playMovie(movie);
+        }
+
+        // Go back to previous page
+        function goBack() {
+            document.getElementById('movie-details-page').style.display = 'none';
+            document.querySelector('main').style.display = 'block';
+            document.querySelector('footer').style.display = 'block';
+            
+            // Re-render content to update progress
+            renderFeaturedContent();
+            renderNewReleases();
+            renderChristmasContent();
+        }
+
+        // Play movie
+        function playMovie(movie) {
+            const playerContainer = document.getElementById('player-container');
+            const playerVideo = document.getElementById('player-video');
+            
+            // Set video source
+            playerVideo.src = movie.video;
+            
+            // Set title
+            document.getElementById('player-title').textContent = movie.title;
+            
+            // Show player
+            playerContainer.style.display = 'block';
+            
+            // Play video
+            playerVideo.play().catch(error => {
+                console.log('Erro ao reproduzir vídeo:', error);
+                alert('Erro ao carregar o vídeo. Verifica a ligação à internet.');
+            });
+            
+            // Set up progress tracking
+            playerVideo.ontimeupdate = () => {
+                if (playerVideo.duration) {
+                    const progress = (playerVideo.currentTime / playerVideo.duration) * 100;
+                    document.getElementById('progress-bar').value = progress;
+                    document.getElementById('current-time').textContent = formatTime(playerVideo.currentTime);
+                    document.getElementById('total-time').textContent = formatTime(playerVideo.duration);
+                    
+                    // Save progress every 5 seconds
+                    if (Math.floor(playerVideo.currentTime) % 5 === 0) {
+                        saveMovieProgress(movie.id, progress);
+                        movie.progress = progress;
+                    }
+                }
+            };
+            
+            // Handle video end
+            playerVideo.onended = () => {
+                saveMovieProgress(movie.id, 100);
+                movie.progress = 100;
+            };
+        }
+
+        // Format time (seconds to MM:SS)
+        function formatTime(seconds) {
+            if (isNaN(seconds)) return "0:00";
+            const mins = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+        }
+
+        // Set up event listeners
+        function setupEventListeners() {
+            // Player controls
+            document.getElementById('player-close').addEventListener('click', closePlayer);
+            document.getElementById('play-pause-btn').addEventListener('click', togglePlayPause);
+            document.getElementById('rewind-btn').addEventListener('click', rewind);
+            document.getElementById('forward-btn').addEventListener('click', forward);
+            document.getElementById('progress-bar').addEventListener('input', seek);
+            document.getElementById('fullscreen-btn').addEventListener('click', toggleFullscreen);
+            
+            // Quality selector
+            document.getElementById('quality-selector').addEventListener('change', changeQuality);
+            
+            // Subtitle selector
+            document.getElementById('subtitle-selector').addEventListener('change', toggleSubtitles);
+            
+            // Video events
+            const playerVideo = document.getElementById('player-video');
+            playerVideo.addEventListener('click', togglePlayPause);
+            
+            // Hide controls when mouse is not moving
+            let controlsTimeout;
+            playerVideo.addEventListener('mousemove', () => {
+                const controls = document.querySelector('.player-controls');
+                const header = document.querySelector('.player-header');
+                if (controls && header) {
+                    controls.style.opacity = '1';
+                    header.style.opacity = '1';
+                    clearTimeout(controlsTimeout);
+                    controlsTimeout = setTimeout(() => {
+                        controls.style.opacity = '0';
+                        header.style.opacity = '0';
+                    }, 3000);
+                }
+            });
+        }
+
+        // Close player
+        function closePlayer() {
+            const playerContainer = document.getElementById('player-container');
+            const playerVideo = document.getElementById('player-video');
+            
+            playerVideo.pause();
+            playerContainer.style.display = 'none';
+            
+            // Update progress displays
+            renderFeaturedContent();
+            renderNewReleases();
+            renderChristmasContent();
+        }
+
+        // Toggle play/pause
+        function togglePlayPause() {
+            const playerVideo = document.getElementById('player-video');
+            const playPauseBtn = document.getElementById('play-pause-btn');
+            
+            if (playerVideo.paused) {
+                playerVideo.play();
+                playPauseBtn.textContent = '⏸️';
+            } else {
+                playerVideo.pause();
+                playPauseBtn.textContent = '▶️';
+            }
+        }
+
+        // Rewind 10 seconds
+        function rewind() {
+            const playerVideo = document.getElementById('player-video');
+            playerVideo.currentTime = Math.max(0, playerVideo.currentTime - 10);
+        }
+
+        // Forward 10 seconds
+        function forward() {
+            const playerVideo = document.getElementById('player-video');
+            playerVideo.currentTime = Math.min(playerVideo.duration, playerVideo.currentTime + 10);
+        }
+
+        // Seek to specific time
+        function seek() {
+            const playerVideo = document.getElementById('player-video');
+            const progressBar = document.getElementById('progress-bar');
+            if (playerVideo.duration) {
+                playerVideo.currentTime = (progressBar.value / 100) * playerVideo.duration;
+            }
+        }
+
+        // Toggle fullscreen
+        function toggleFullscreen() {
+            const playerContainer = document.getElementById('player-container');
+            
+            if (!document.fullscreenElement) {
+                if (playerContainer.requestFullscreen) {
+                    playerContainer.requestFullscreen();
+                } else if (playerContainer.mozRequestFullScreen) {
+                    playerContainer.mozRequestFullScreen();
+                } else if (playerContainer.webkitRequestFullscreen) {
+                    playerContainer.webkitRequestFullscreen();
+                } else if (playerContainer.msRequestFullscreen) {
+                    playerContainer.msRequestFullscreen();
+                }
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                } else if (document.mozCancelFullScreen) {
+                    document.mozCancelFullScreen();
+                } else if (document.webkitExitFullscreen) {
+                    document.webkitExitFullscreen();
+                } else if (document.msExitFullscreen) {
+                    document.msExitFullscreen();
+                }
+            }
+        }
+
+        // Change video quality (simulated)
+        function changeQuality() {
+            const qualitySelector = document.getElementById('quality-selector');
+            console.log(`Qualidade alterada para ${qualitySelector.value}`);
+            // In a real implementation, this would change the video source
+        }
+
+        // Toggle subtitles (simulated)
+        function toggleSubtitles() {
+            const subtitleSelector = document.getElementById('subtitle-selector');
+            if (subtitleSelector.value === 'off') {
+                console.log('Legendas desativadas');
+            } else {
+                console.log(`Legendas ativadas: ${subtitleSelector.value}`);
+            }
+            // In a real implementation, this would toggle subtitle tracks
+        }
+    </script>
+</body>
+</html>
