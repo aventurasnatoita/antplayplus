@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AntPlay+</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4e67b1;
+            --secondary-color: #ba852a;
+            --dark-color: #141414;
+            --light-color: #f4f4f4;
+            --gray-color: #303030;
+            --font-title: 'Montserrat', sans-serif;
+            --font-paragraph: 'Montserrat', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-paragraph);
+            background-color: var(--dark-color);
+            color: var(--light-color);
+            line-height: 1.6;
+        }
+
+        a {
+            text-decoration: none;
+            color: var(--light-color);
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        img {
+            width: 100%;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background-color: rgba(20, 20, 20, 0.9);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 100;
+            padding: 15px 0;
+            transition: all 0.3s ease;
+        }
+
+        header.scrolled {
+            background-color: var(--dark-color);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: var(--font-title);
+            font-weight: 800;
+            font-size: 1.8rem;
+            color: var(--primary-color);
+        }
+
+        .nav-links {
+            display: flex;
+        }
+
+        .nav-links li {
+            margin-left: 20px;
+        }
+
+        .nav-links a {
+            font-weight: 400;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--secondary-color);
+        }
+
+        .nav-links a.active {
+            color: var(--secondary-color);
+            font-weight: 800;
+        }
+
+        .user-actions {
+            display: flex;
+            align-items: center;
+        }
+
+        .search-icon, .user-icon {
+            margin-left: 15px;
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+
+        .menu-toggle {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 80vh;
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://source.unsplash.com/random/1600x900/?cinema') no-repeat center center/cover;
+            display: flex;
+            align-items: center;
+            padding-top: 80px;
+        }
+
+        .hero-content {
+            max-width: 600px;
+        }
+
+        .hero-title {
+            font-family: var(--font-title);
+            font-weight: 800;
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        .hero-description {
+            font-size: 1.1rem;
+            margin-bottom: 25px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn {
+            padding: 10px 25px;
+            border-radius: 4px;
+            font-weight: 800;
+            font-family: var(--font-title);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #3a5399;
+        }
+
+        .btn-secondary {
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Slider Section */
+        .slider-section {
+            padding: 40px 0;
+        }
+
+        .section-title {
+            font-family: var(--font-title);
+            font-weight: 800;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            padding-left: 20px;
+        }
+
+        .slider-container {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .slider {
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+
+        .slider-item {
+            min-width: 20%;
+            padding: 0 10px;
+            transition: transform 0.3s ease;
+        }
+
+        .slider-item:hover {
+            transform: scale(1.05);
+        }
+
+        .movie-card {
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .movie-card img {
+            display: block;
+            transition: transform 0.3s ease;
+        }
+
+        .movie-card:hover img {
+            transform: scale(1.1);
+        }
+
+        .movie-info {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+            padding: 20px 10px 10px;
+        }
+
+        .movie-title {
+            font-family: var(--font-title);
+            font-weight: 800;
+            font-size: 1rem;
+            margin-bottom: 5px;
+        }
+
+        .movie-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            color: #ccc;
+        }
+
+        .slider-controls {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 15px;
+            padding-right: 20px;
+        }
+
+        .slider-btn {
+            background-color: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            margin-left: 10px;
+            transition: background-color 0.3s ease;
+        }
+
+        .slider-btn:hover {
+            background-color: rgba(255, 255, 255, 0.4);
+        }
+
+        /* Movie Lists */
+        .movie-lists {
+            padding: 40px 0;
+        }
+
+        .movie-row {
+            display: flex;
+            overflow-x: auto;
+            padding: 10px 0;
+            gap: 15px;
+            scrollbar-width: none;
+        }
+
+        .movie-row::-webkit-scrollbar {
+            display: none;
+        }
+
+        .movie-item {
+            min-width: 200px;
+            flex-shrink: 0;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--gray-color);
+            padding: 40px 0 20px;
+            margin-top: 40px;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin-bottom: 30px;
+        }
+
+        .footer-logo {
+            font-family: var(--font-title);
+            font-weight: 800;
+            font-size: 1.8rem;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+
+        .footer-column h4 {
+            font-family: var(--font-title);
+            font-weight: 800;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-column ul li a {
+            color: #ccc;
+            transition: color 0.3s ease;
+        }
+
+        .footer-column ul li a:hover {
+            color: var(--secondary-color);
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-icons a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            transition: background-color 0.3s ease;
+        }
+
+        .social-icons a:hover {
+            background-color: var(--primary-color);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #ccc;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .slider-item {
+                min-width: 25%;
+            }
+            
+            .movie-item {
+                min-width: 180px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+            
+            .nav-links {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                width: 80%;
+                height: calc(100vh - 70px);
+                background-color: var(--dark-color);
+                flex-direction: column;
+                align-items: center;
+                padding-top: 40px;
+                transition: left 0.3s ease;
+            }
+            
+            .nav-links.active {
+                left: 0;
+            }
+            
+            .nav-links li {
+                margin: 15px 0;
+            }
+            
+            .hero-title {
+                font-size: 2.2rem;
+            }
+            
+            .slider-item {
+                min-width: 33.33%;
+            }
+            
+            .movie-item {
+                min-width: 150px;
+            }
+            
+            .footer-links {
+                gap: 20px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .hero-title {
+                font-size: 1.8rem;
+            }
+            
+            .hero-buttons {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .btn {
+                width: 100%;
+                text-align: center;
+            }
+            
+            .slider-item {
+                min-width: 50%;
+            }
+            
+            .movie-item {
+                min-width: 130px;
+            }
+            
+            .footer-content {
+                flex-direction: column;
+            }
+            
+            .footer-links {
+                margin-top: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header id="header">
+        <div class="container">
+            <nav class="navbar">
+                <a href="inicio.html" class="logo">ANTPLAY+<span style="color: var(--secondary-color)">+</span></a>
+                
+                <ul class="nav-links">
+                    <li><a href="inicio.html" class="active">Início</a></li>
+                    <li><a href="filmes.html">Filmes</a></li>
+                    <li><a href="cartaz.html">Natal</a></li>
+                </ul>
+                
+                <div class="user-actions">
+                    <div class="search-icon">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <div class="user-icon">
+                        <i class="fas fa-user-circle"></i>
+                    </div>
+                    <div class="menu-toggle">
+                        <i class="fas fa-bars"></i>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">O melhor streaming em Portugal</h1>
+                <p class="hero-description">Descobre um mundo de entretenimento com vários de títulos para toda a família. Onde e quando quiseres.</p>
+                <div class="hero-buttons">
+                    <button class="btn btn-primary">Explorar catálogo</button>
+                    <button class="btn btn-secondary">Mais Informações</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Movies Slider -->
+    <section class="slider-section">
+        <h2 class="section-title">Em Destaque</h2>
+        <div class="container">
+            <div class="slider-container">
+                <div class="slider" id="featured-slider">
+                    <!-- Featured movies will be added here by JavaScript -->
+                </div>
+            </div>
+            <div class="slider-controls">
+                <button class="slider-btn" id="prev-slider">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <button class="slider-btn" id="next-slider">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Popular Movies -->
+    <section class="movie-lists">
+        <h2 class="section-title">Populares na AntPlay+</h2>
+        <div class="container">
+            <div class="movie-row" id="popular-movies">
+                <!-- Popular movies will be added here by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Christmas Movies -->
+    <section class="movie-lists">
+        <h2 class="section-title">Especial de Natal</h2>
+        <div class="container">
+            <div class="movie-row" id="christmas-movies">
+                <!-- Christmas movies will be added here by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-info">
+                    <div class="footer-logo">ANTPLAY+<span style="color: var(--secondary-color)">+</span></div>
+                    <p>O melhor serviço de streaming em Portugal</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-column">
+                        <h4>Navegação</h4>
+                        <ul>
+                            <li><a href="inicio.html">Início</a></li>
+                            <li><a href="filmes.html">Filmes</a></li>
+                            <li><a href="cartaz.html">Especial Natal</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-column">
+                        <h4>Suporte</h4>
+                        <ul>
+                            <li><a href="#">Centro de Ajuda</a></li>
+                            <li><a href="#">Termos de Utilização</a></li>
+                            <li><a href="#">Privacidade</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-column">
+                        <h4>Empresa</h4>
+                        <ul>
+                            <li><a href="#">Sobre Nós</a></li>
+                            <li><a href="#">Carreiras</a></li>
+                            <li><a href="#">Contactos</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 AntPlay+.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Movie data
+        const movies = [
+            { id: 1, title: "Aventura Espacial", genre: "Ficção Científica", age: "12", year: "2023", image: "https://source.unsplash.com/random/300x450/?sci-fi,movie" }
+        ];
+
+        const christmasMovies = [
+            { id: 11, title: "Natal em Família", genre: "Família", age: "6", year: "2022", image: "https://source.unsplash.com/random/300x450/?christmas,movie" },
+            { id: 12, title: "Presentes Mágicos", genre: "Fantasia", age: "6", year: "2021", image: "https://source.unsplash.com/random/300x450/?christmas,magic" }
+        ];
+
+        // DOM elements
+        const featuredSlider = document.getElementById('featured-slider');
+        const popularMovies = document.getElementById('popular-movies');
+        const christmasMoviesContainer = document.getElementById('christmas-movies');
+        const prevBtn = document.getElementById('prev-slider');
+        const nextBtn = document.getElementById('next-slider');
+        const menuToggle = document.querySelector('.menu-toggle');
+        const navLinks = document.querySelector('.nav-links');
+        const header = document.getElementById('header');
+
+        // Generate movie card HTML
+        function createMovieCard(movie, isSlider = false) {
+            return `
+                <div class="${isSlider ? 'slider-item' : 'movie-item'}">
+                    <div class="movie-card">
+                        <img src="${movie.image}" alt="${movie.title}">
+                        <div class="movie-info">
+                            <h3 class="movie-title">${movie.title}</h3>
+                            <div class="movie-meta">
+                                <span>${movie.year}</span>
+                                <span>${movie.age}+</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Populate featured slider
+        movies.slice(0, 8).forEach(movie => {
+            featuredSlider.innerHTML += createMovieCard(movie, true);
+        });
+
+        // Populate popular movies
+        movies.forEach(movie => {
+            popularMovies.innerHTML += createMovieCard(movie);
+        });
+
+        // Populate christmas movies
+        christmasMovies.forEach(movie => {
+            christmasMoviesContainer.innerHTML += createMovieCard(movie);
+        });
+
+        // Slider functionality
+        let currentSlide = 0;
+        const slideWidth = document.querySelector('.slider-item').offsetWidth;
+        const totalSlides = document.querySelectorAll('.slider-item').length;
+        const visibleSlides = window.innerWidth >= 1200 ? 5 : 
+                             window.innerWidth >= 992 ? 4 : 
+                             window.innerWidth >= 768 ? 3 : 2;
+
+        function updateSlider() {
+            featuredSlider.style.transform = `translateX(-${currentSlide * slideWidth}px)`;
+        }
+
+        nextBtn.addEventListener('click', () => {
+            if (currentSlide < totalSlides - visibleSlides) {
+                currentSlide++;
+                updateSlider();
+            }
+        });
+
+        prevBtn.addEventListener('click', () => {
+            if (currentSlide > 0) {
+                currentSlide--;
+                updateSlider();
+            }
+        });
+
+        // Mobile menu toggle
+        menuToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+
+        // Header scroll effect
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 100) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Responsive slider adjustment
+        window.addEventListener('resize', () => {
+            const newSlideWidth = document.querySelector('.slider-item').offsetWidth;
+            if (newSlideWidth !== slideWidth) {
+                updateSlider();
+            }
+        });
+    </script>
+</body>
+</html>
