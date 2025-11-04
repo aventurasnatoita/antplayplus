@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Player - AnTPlay+</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #4e67b1;
+      --secondary: #ba852a;
+      --dark-bg: #0f0f0f;
+      --controls-bg: rgba(15, 15, 15, 0.85);
+      --white: #ffffff;
+      --gray: #b3b3b3;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    body {
+      background: var(--dark-bg);
+      color: var(--white);
+      overflow: hidden;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .player-container {
+      position: relative;
+      width: 100%;
+      max-width: 1200px;
+      aspect-ratio: 16/9;
+      background: #000;
+      overflow: hidden;
+    }
+
+    video {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      outline: none;
+    }
+
+    /* Top Bar */
+    .top-bar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      padding: 15px;
+      background: var(--controls-bg);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      opacity: 1;
+      transition: opacity 0.3s;
+      z-index: 10;
+    }
+
+    .top-bar.hidden {
+      opacity: 0;
+    }
+
+    .logo {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: var(--white);
+    }
+
+    .logo span {
+      color: var(--primary);
+    }
+
+    .resume-prompt {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(0, 0, 0, 0.85);
+      padding: 20px 30px;
+      border-radius: 8px;
+      text-align: center;
+      z-index: 20;
+      max-width: 90%;
+    }
+
+    .resume-prompt h3 {
+      font-size: 1.4rem;
+      margin-bottom: 15px;
+      font-weight: 800;
+    }
+
+    .resume-prompt p {
+      color: var(--gray);
+      margin-bottom: 20px;
+      line-height: 1.5;
+    }
+
+    .resume-btns {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+    }
+
+    .resume-btn {
+      padding: 8px 20px;
+      border-radius: 5px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    .btn-resume {
+      background: var(--primary);
+      color: white;
+      border: none;
+    }
+
+    .btn-start {
+      background: transparent;
+      color: white;
+      border: 1px solid var(--gray);
+    }
+
+    /* Controls */
+    .controls {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: var(--controls-bg);
+      padding: 15px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      transform: translateY(0);
+      transition: transform 0.3s ease, opacity 0.3s ease;
+      opacity: 1;
+      z-index: 10;
+    }
+
+    .controls.hidden {
+      transform: translateY(100%);
+      opacity: 0;
+    }
+
+    .progress-container {
+      width: 100%;
+      height: 6px;
+      background: #444;
+      border-radius: 3px;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background: var(--primary);
+      border-radius: 3px;
+      position: relative;
+    }
+
+    .progress-bar::after {
+      content: '';
+      position: absolute;
+      right: -6px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--primary);
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+
+    .progress-container:hover .progress-bar::after {
+      opacity: 1;
+    }
+
+    .controls-row {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .btn {
+      background: none;
+      border: none;
+      color: var(--white);
+      font-size: 18px;
+      cursor: pointer;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      transition: background 0.2s;
+    }
+
+    .btn:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .time {
+      font-size: 0.85rem;
+      color: var(--gray);
+      min-width: 70px;
+      text-align: center;
+    }
+
+    .volume-container {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .volume-slider {
+      width: 80px;
+      height: 4px;
+      -webkit-appearance: none;
+      background: #555;
+      border-radius: 2px;
+      outline: none;
+    }
+
+    .volume-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--white);
+      cursor: pointer;
+    }
+
+    /* Dropdown Menus */
+    .dropdown {
+      position: relative;
+      display: inline-block;
+    }
+
+    .dropdown-btn {
+      background: rgba(255, 255, 255, 0.1);
+      border: none;
+      color: var(--white);
+      padding: 6px 12px;
+      border-radius: 4px;
+      font-size: 0.85rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      bottom: 100%;
+      left: 0;
+      background: var(--dark-bg);
+      border: 1px solid #333;
+      border-radius: 4px;
+      z-index: 20;
+      min-width: 120px;
+      overflow: hidden;
+    }
+
+    .dropdown-content.show {
+      display: block;
+    }
+
+    .dropdown-item {
+      padding: 8px 12px;
+      color: var(--gray);
+      text-align: left;
+      cursor: pointer;
+      font-size: 0.85rem;
+    }
+
+    .dropdown-item:hover {
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .dropdown-item.active {
+      color: var(--primary);
+      font-weight: 800;
+    }
+
+    /* Fullscreen */
+    .fullscreen {
+      margin-left: auto;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .controls-row {
+        gap: 10px;
+      }
+
+      .btn {
+        width: 36px;
+        height: 36px;
+        font-size: 16px;
+      }
+
+      .volume-slider {
+        width: 60px;
+      }
+
+      .dropdown-btn {
+        padding: 5px 10px;
+        font-size: 0.8rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .volume-container {
+        display: none;
+      }
+
+      .resume-prompt {
+        padding: 15px;
+      }
+
+      .resume-prompt h3 {
+        font-size: 1.2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="player-container">
+    <!-- Movie ID from URL or hardcoded (for demo) -->
+    <!-- In real use: pass ?movieId=aventura-estrelas via URL -->
+    
+    <video id="video" poster="https://assets.codepen.io/3364143/Netflix_1.jpg">
+      <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" data-res="1080" type="video/mp4">
+      <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" data-res="720" type="video/mp4">
+      <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" data-res="480" type="video/mp4">
+      
+      <track label="Português" kind="subtitles" srclang="pt" src="https://assets.codepen.io/3364143/subtitles_pt.vtt">
+      <track label="Inglês" kind="subtitles" srclang="en" src="https://assets.codepen.io/3364143/subtitles_en.vtt">
+      <track label="Espanhol" kind="subtitles" srclang="es" src="https://assets.codepen.io/3364143/subtitles_es.vtt">
+    </video>
+
+    <!-- Resume Prompt (initially hidden) -->
+    <div class="resume-prompt" id="resumePrompt" style="display:none;">
+      <h3>Continuar Assistindo?</h3>
+      <p>Você parou em <span id="savedTime">00:00</span></p>
+      <div class="resume-btns">
+        <button class="resume-btn btn-resume" id="btnResume">Continuar</button>
+        <button class="resume-btn btn-start" id="btnStart">Recomeçar</button>
+      </div>
+    </div>
+
+    <div class="top-bar" id="topBar">
+      <div class="logo">AnT<span>Play</span>+</div>
+      <div class="time" id="duration">00:00 / 00:00</div>
+    </div>
+
+    <div class="controls" id="controls">
+      <div class="progress-container" id="progressContainer">
+        <div class="progress-bar" id="progressBar"></div>
+      </div>
+      <div class="controls-row">
+        <button class="btn" id="playPause">▶</button>
+        <div class="time" id="currentTime">00:00</div>
+        
+        <div class="dropdown" id="qualityDropdown">
+          <button class="dropdown-btn" id="qualityBtn">1080p ▼</button>
+          <div class="dropdown-content" id="qualityMenu">
+            <div class="dropdown-item active" data-res="1080">1080p</div>
+            <div class="dropdown-item" data-res="720">720p</div>
+            <div class="dropdown-item" data-res="480">480p</div>
+          </div>
+        </div>
+
+        <div class="dropdown" id="subtitleDropdown">
+          <button class="dropdown-btn" id="subtitleBtn">Legenda: PT ▼</button>
+          <div class="dropdown-content" id="subtitleMenu">
+            <div class="dropdown-item active" data-lang="pt">Português</div>
+            <div class="dropdown-item" data-lang="en">Inglês</div>
+            <div class="dropdown-item" data-lang="es">Espanhol</div>
+            <div class="dropdown-item" data-lang="off">Desligar</div>
+          </div>
+        </div>
+
+        <div class="volume-container">
+          <button class="btn" id="mute">🔊</button>
+          <input type="range" class="volume-slider" id="volume" min="0" max="1" step="0.01" value="1">
+        </div>
+
+        <div class="fullscreen">
+          <button class="btn" id="fullscreen">⛶</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const video = document.getElementById('video');
+      const resumePrompt = document.getElementById('resumePrompt');
+      const savedTimeEl = document.getElementById('savedTime');
+      const btnResume = document.getElementById('btnResume');
+      const btnStart = document.getElementById('btnStart');
+      
+      // Get movie ID (for demo, use a fixed ID; in real app, get from URL)
+      // Example: const urlParams = new URLSearchParams(window.location.search);
+      // const movieId = urlParams.get('movieId') || 'default-movie';
+      const movieId = 'aventura-nas-estrelas'; // 🔁 Replace with dynamic ID in production
+
+      // Load saved progress
+      const savedProgress = localStorage.getItem(`antplay_progress_${movieId}`);
+      let shouldResume = false;
+      
+      if (savedProgress) {
+        const { currentTime, duration } = JSON.parse(savedProgress);
+        if (currentTime > 0 && currentTime < duration * 0.95) { // Don't resume if >95% watched
+          savedTimeEl.textContent = formatTime(currentTime);
+          resumePrompt.style.display = 'block';
+          shouldResume = true;
+        }
+      }
+
+      // Resume or start
+      if (shouldResume) {
+        video.addEventListener('loadedmetadata', () => {
+          // Keep prompt visible until user chooses
+        });
+      } else {
+        resumePrompt.style.display = 'none';
+        video.play();
+      }
+
+      btnResume.addEventListener('click', () => {
+        const progress = JSON.parse(localStorage.getItem(`antplay_progress_${movieId}`));
+        video.currentTime = progress.currentTime;
+        resumePrompt.style.display = 'none';
+        video.play();
+      });
+
+      btnStart.addEventListener('click', () => {
+        localStorage.removeItem(`antplay_progress_${movieId}`);
+        resumePrompt.style.display = 'none';
+        video.currentTime = 0;
+        video.play();
+      });
+
+      // Save progress every 5 seconds and on pause
+      let saveInterval;
+      function saveProgress() {
+        if (video.currentTime > 0 && !video.ended) {
+          const progress = {
+            currentTime: video.currentTime,
+            duration: video.duration,
+            lastWatched: Date.now()
+          };
+          localStorage.setItem(`antplay_progress_${movieId}`, JSON.stringify(progress));
+        }
+      }
+
+      video.addEventListener('play', () => {
+        saveInterval = setInterval(saveProgress, 5000); // Save every 5s
+      });
+
+      video.addEventListener('pause', () => {
+        clearInterval(saveInterval);
+        saveProgress(); // Save immediately on pause
+      });
+
+      video.addEventListener('ended', () => {
+        clearInterval(saveInterval);
+        // Optionally: auto-delete progress when finished
+        localStorage.removeItem(`antplay_progress_${movieId}`);
+      });
+
+      window.addEventListener('beforeunload', () => {
+        saveProgress();
+      });
+
+      // ============= Rest of player logic (same as before) =============
+      
+      const sources = Array.from(video.querySelectorAll('source'));
+      const tracks = Array.from(video.querySelectorAll('track'));
+      const playPauseBtn = document.getElementById('playPause');
+      const progressBar = document.getElementById('progressBar');
+      const progressContainer = document.getElementById('progressContainer');
+      const currentTimeEl = document.getElementById('currentTime');
+      const durationEl = document.getElementById('duration');
+      const muteBtn = document.getElementById('mute');
+      const volumeSlider = document.getElementById('volume');
+      const fullscreenBtn = document.getElementById('fullscreen');
+      const controls = document.getElementById('controls');
+      const topBar = document.getElementById('topBar');
+      const qualityBtn = document.getElementById('qualityBtn');
+      const qualityMenu = document.getElementById('qualityMenu');
+      const subtitleBtn = document.getElementById('subtitleBtn');
+      const subtitleMenu = document.getElementById('subtitleMenu');
+      let hideControlsTimeout;
+
+      function formatTime(seconds) {
+        if (isNaN(seconds)) return '00:00';
+        const mins = Math.floor(seconds / 60);
+        const secs = Math.floor(seconds % 60);
+        return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+      }
+
+      video.addEventListener('play', () => playPauseBtn.textContent = '⏸');
+      video.addEventListener('pause', () => playPauseBtn.textContent = '▶');
+      
+      playPauseBtn.addEventListener('click', () => {
+        video.paused ? video.play() : video.pause();
+      });
+
+      video.addEventListener('timeupdate', () => {
+        if (video.duration) {
+          const percent = (video.currentTime / video.duration) * 100;
+          progressBar.style.width = `${percent}%`;
+          currentTimeEl.textContent = formatTime(video.currentTime);
+          durationEl.textContent = `${formatTime(video.currentTime)} / ${formatTime(video.duration)}`;
+        }
+      });
+
+      progressContainer.addEventListener('click', (e) => {
+        const width = progressContainer.clientWidth;
+        const clickX = e.offsetX;
+        video.currentTime = (clickX / width) * video.duration;
+      });
+
+      volumeSlider.addEventListener('input', () => {
+        video.volume = volumeSlider.value;
+        updateMuteIcon();
+      });
+
+      muteBtn.addEventListener('click', () => {
+        video.muted = !video.muted;
+        updateMuteIcon();
+      });
+
+      function updateMuteIcon() {
+        if (video.muted || video.volume === 0) {
+          muteBtn.textContent = '🔇';
+        } else if (video.volume < 0.5) {
+          muteBtn.textContent = '🔉';
+        } else {
+          muteBtn.textContent = '🔊';
+        }
+      }
+
+      fullscreenBtn.addEventListener('click', () => {
+        if (!document.fullscreenElement) {
+          document.querySelector('.player-container').requestFullscreen();
+        } else {
+          document.exitFullscreen();
+        }
+      });
+
+      function switchQuality(res) {
+        qualityBtn.textContent = `${res}p ▼`;
+        document.querySelectorAll('#qualityMenu .dropdown-item').forEach(item => {
+          item.classList.toggle('active', item.dataset.res === res);
+        });
+        qualityMenu.classList.remove('show');
+      }
+
+      document.querySelectorAll('#qualityMenu .dropdown-item').forEach(item => {
+        item.addEventListener('click', () => switchQuality(item.dataset.res));
+      });
+
+      qualityBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        qualityMenu.classList.toggle('show');
+      });
+
+      function switchSubtitle(lang) {
+        if (lang === 'off') {
+          video.textTracks[0].mode = 'disabled';
+          subtitleBtn.textContent = 'Legenda: Desligada ▼';
+        } else {
+          tracks.forEach((track, i) => {
+            video.textTracks[i].mode = track.srclang === lang ? 'showing' : 'disabled';
+          });
+          const label = tracks.find(t => t.srclang === lang)?.label || 'PT';
+          subtitleBtn.textContent = `Legenda: ${label} ▼`;
+        }
+        document.querySelectorAll('#subtitleMenu .dropdown-item').forEach(item => {
+          item.classList.toggle('active', item.dataset.lang === lang);
+        });
+        subtitleMenu.classList.remove('show');
+      }
+
+      document.querySelectorAll('#subtitleMenu .dropdown-item').forEach(item => {
+        item.addEventListener('click', () => switchSubtitle(item.dataset.lang));
+      });
+
+      subtitleBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        subtitleMenu.classList.toggle('show');
+      });
+
+      document.addEventListener('click', () => {
+        qualityMenu.classList.remove('show');
+        subtitleMenu.classList.remove('show');
+      });
+
+      function resetHideTimeout() {
+        clearTimeout(hideControlsTimeout);
+        controls.classList.remove('hidden');
+        topBar.classList.remove('hidden');
+        if (!video.paused) {
+          hideControlsTimeout = setTimeout(() => {
+            controls.classList.add('hidden');
+            topBar.classList.add('hidden');
+          }, 3000);
+        }
+      }
+
+      video.addEventListener('mousemove', resetHideTimeout);
+      video.addEventListener('click', resetHideTimeout);
+      video.addEventListener('play', resetHideTimeout);
+      video.addEventListener('pause', () => {
+        clearTimeout(hideControlsTimeout);
+        controls.classList.remove('hidden');
+        topBar.classList.remove('hidden');
+      });
+
+      video.addEventListener('loadedmetadata', () => {
+        durationEl.textContent = `00:00 / ${formatTime(video.duration)}`;
+      });
+
+      video.addEventListener('touchstart', (e) => {
+        if (e.touches.length > 1) e.preventDefault();
+      }, { passive: false });
+    });
+  </script>
+</body>
+</html>
