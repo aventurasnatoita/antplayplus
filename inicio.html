@@ -3,434 +3,350 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AntPlay+</title>
+    <title>AnTPlay+</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary-color: #4e67b1;
-            --secondary-color: #ba852a;
-            --dark-color: #141414;
-            --light-color: #f4f4f4;
-            --gray-color: #303030;
-            --font-title: 'Montserrat', sans-serif;
-            --font-paragraph: 'Montserrat', sans-serif;
+            --primary: #4e67b1;
+            --secondary: #ba852a;
+            --dark: #141414;
+            --light: #ffffff;
+            --gray: #b3b3b3;
         }
-
+        
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
         }
-
+        
         body {
-            font-family: var(--font-paragraph);
-            background-color: var(--dark-color);
-            color: var(--light-color);
-            line-height: 1.6;
+            background-color: var(--dark);
+            color: var(--light);
+            overflow-x: hidden;
         }
-
-        a {
-            text-decoration: none;
-            color: var(--light-color);
-        }
-
-        ul {
-            list-style: none;
-        }
-
-        img {
-            width: 100%;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        /* Header */
+        
+        /* Header Styles */
         header {
-            background-color: rgba(20, 20, 20, 0.9);
             position: fixed;
             top: 0;
-            left: 0;
             width: 100%;
-            z-index: 100;
-            padding: 15px 0;
-            transition: all 0.3s ease;
-        }
-
-        header.scrolled {
-            background-color: var(--dark-color);
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-        }
-
-        .navbar {
+            padding: 15px 50px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            z-index: 1000;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.8) 0%, transparent 100%);
+            transition: 0.3s ease;
         }
-
+        
         .logo {
-            font-family: var(--font-title);
+            font-size: 2.2rem;
             font-weight: 800;
-            font-size: 1.8rem;
-            color: var(--primary-color);
+            color: var(--light);
+            text-decoration: none;
         }
-
-        .nav-links {
+        
+        .logo span {
+            color: var(--primary);
+        }
+        
+        nav ul {
             display: flex;
+            list-style: none;
         }
-
-        .nav-links li {
+        
+        nav li {
             margin-left: 20px;
         }
-
-        .nav-links a {
+        
+        nav a {
+            color: var(--light);
+            text-decoration: none;
+            font-size: 1.1rem;
             font-weight: 400;
-            transition: color 0.3s ease;
+            transition: 0.3s;
         }
-
-        .nav-links a:hover {
-            color: var(--secondary-color);
+        
+        nav a:hover {
+            color: var(--gray);
         }
-
-        .nav-links a.active {
-            color: var(--secondary-color);
-            font-weight: 800;
-        }
-
+        
         .user-actions {
             display: flex;
             align-items: center;
         }
-
-        .search-icon, .user-icon {
-            margin-left: 15px;
-            font-size: 1.2rem;
+        
+        .user-actions button {
+            background: none;
+            border: none;
+            color: var(--light);
+            font-size: 1.1rem;
+            margin-left: 20px;
             cursor: pointer;
+            transition: 0.3s;
         }
-
-        .menu-toggle {
-            display: none;
-            font-size: 1.5rem;
-            cursor: pointer;
+        
+        .user-actions button:hover {
+            color: var(--gray);
         }
-
+        
         /* Hero Section */
         .hero {
             height: 80vh;
-            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://source.unsplash.com/random/1600x900/?cinema') no-repeat center center/cover;
+            background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 100%);
             display: flex;
-            align-items: center;
-            padding-top: 80px;
+            align-items: flex-end;
+            padding: 0 50px 50px;
+            position: relative;
         }
-
+        
+        .hero-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+        }
+        
         .hero-content {
             max-width: 600px;
         }
-
-        .hero-title {
-            font-family: var(--font-title);
+        
+        .hero h1 {
+            font-size: 3.5rem;
             font-weight: 800;
-            font-size: 3rem;
+            margin-bottom: 15px;
+            line-height: 1.2;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
             margin-bottom: 20px;
+            color: var(--gray);
+            line-height: 1.5;
         }
-
-        .hero-description {
-            font-size: 1.1rem;
-            margin-bottom: 25px;
-        }
-
+        
         .hero-buttons {
             display: flex;
             gap: 15px;
         }
-
+        
         .btn {
             padding: 10px 25px;
-            border-radius: 4px;
-            font-weight: 800;
-            font-family: var(--font-title);
+            border-radius: 5px;
+            font-size: 1.1rem;
+            font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s ease;
-            border: none;
-            font-size: 1rem;
+            transition: 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
         }
-
+        
         .btn-primary {
-            background-color: var(--primary-color);
-            color: white;
+            background: var(--primary);
+            color: var(--light);
+            border: 2px solid var(--primary);
         }
-
+        
         .btn-primary:hover {
-            background-color: #3a5399;
+            background: #3a509e;
+            border-color: #3a509e;
         }
-
+        
         .btn-secondary {
-            background-color: rgba(255, 255, 255, 0.2);
-            color: white;
+            background: transparent;
+            color: var(--light);
+            border: 2px solid var(--light);
         }
-
+        
         .btn-secondary:hover {
-            background-color: rgba(255, 255, 255, 0.3);
+            background: rgba(255,255,255,0.1);
         }
-
-        /* Slider Section */
-        .slider-section {
-            padding: 40px 0;
-        }
-
+        
+        /* Section Titles */
         .section-title {
-            font-family: var(--font-title);
+            padding: 30px 50px 15px;
+            font-size: 1.8rem;
             font-weight: 800;
-            font-size: 1.5rem;
-            margin-bottom: 20px;
-            padding-left: 20px;
         }
-
+        
+        /* Movie Slider */
         .slider-container {
             position: relative;
-            overflow: hidden;
+            padding: 0 50px 30px;
         }
-
+        
         .slider {
             display: flex;
-            transition: transform 0.5s ease;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            gap: 10px;
+            padding: 10px 0;
+            scrollbar-width: none;
         }
-
-        .slider-item {
-            min-width: 20%;
-            padding: 0 10px;
-            transition: transform 0.3s ease;
+        
+        .slider::-webkit-scrollbar {
+            display: none;
         }
-
-        .slider-item:hover {
-            transform: scale(1.05);
-        }
-
+        
         .movie-card {
-            border-radius: 4px;
+            min-width: 200px;
+            height: 120px;
+            border-radius: 5px;
             overflow: hidden;
             position: relative;
             cursor: pointer;
+            transition: 0.3s;
         }
-
+        
+        .movie-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
+        
         .movie-card img {
-            display: block;
-            transition: transform 0.3s ease;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
-
-        .movie-card:hover img {
-            transform: scale(1.1);
+        
+        .slider-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0,0,0,0.7);
+            color: var(--light);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            z-index: 10;
+            transition: 0.3s;
         }
-
+        
+        .slider-nav:hover {
+            background: var(--primary);
+        }
+        
+        .slider-prev {
+            left: 10px;
+        }
+        
+        .slider-next {
+            right: 10px;
+        }
+        
+        /* Movie Grid */
+        .movie-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 20px;
+            padding: 0 50px 40px;
+        }
+        
+        .movie-item {
+            position: relative;
+            border-radius: 5px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        
+        .movie-item:hover {
+            transform: scale(1.05);
+        }
+        
+        .movie-item img {
+            width: 100%;
+            aspect-ratio: 2/3;
+            object-fit: cover;
+        }
+        
         .movie-info {
             position: absolute;
             bottom: 0;
             left: 0;
             right: 0;
-            background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
-            padding: 20px 10px 10px;
+            background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 100%);
+            padding: 15px;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: 0.3s;
         }
-
+        
+        .movie-item:hover .movie-info {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
         .movie-title {
-            font-family: var(--font-title);
-            font-weight: 800;
             font-size: 1rem;
+            font-weight: 800;
             margin-bottom: 5px;
         }
-
+        
         .movie-meta {
             display: flex;
-            justify-content: space-between;
-            font-size: 0.8rem;
-            color: #ccc;
+            gap: 10px;
+            font-size: 0.85rem;
+            color: var(--gray);
         }
-
-        .slider-controls {
-            display: flex;
-            justify-content: flex-end;
-            margin-top: 15px;
-            padding-right: 20px;
-        }
-
-        .slider-btn {
-            background-color: rgba(255, 255, 255, 0.2);
-            border: none;
-            color: white;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            margin-left: 10px;
-            transition: background-color 0.3s ease;
-        }
-
-        .slider-btn:hover {
-            background-color: rgba(255, 255, 255, 0.4);
-        }
-
-        /* Movie Lists */
-        .movie-lists {
-            padding: 40px 0;
-        }
-
-        .movie-row {
-            display: flex;
-            overflow-x: auto;
-            padding: 10px 0;
-            gap: 15px;
-            scrollbar-width: none;
-        }
-
-        .movie-row::-webkit-scrollbar {
-            display: none;
-        }
-
-        .movie-item {
-            min-width: 200px;
-            flex-shrink: 0;
-        }
-
+        
         /* Footer */
         footer {
-            background-color: var(--gray-color);
-            padding: 40px 0 20px;
-            margin-top: 40px;
-        }
-
-        .footer-content {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            margin-bottom: 30px;
-        }
-
-        .footer-logo {
-            font-family: var(--font-title);
-            font-weight: 800;
-            font-size: 1.8rem;
-            color: var(--primary-color);
-            margin-bottom: 15px;
-        }
-
-        .footer-links {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 30px;
-        }
-
-        .footer-column h4 {
-            font-family: var(--font-title);
-            font-weight: 800;
-            margin-bottom: 15px;
-            font-size: 1.1rem;
-        }
-
-        .footer-column ul li {
-            margin-bottom: 10px;
-        }
-
-        .footer-column ul li a {
-            color: #ccc;
-            transition: color 0.3s ease;
-        }
-
-        .footer-column ul li a:hover {
-            color: var(--secondary-color);
-        }
-
-        .social-icons {
-            display: flex;
-            gap: 15px;
-            margin-top: 20px;
-        }
-
-        .social-icons a {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 40px;
-            height: 40px;
-            background-color: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            transition: background-color 0.3s ease;
-        }
-
-        .social-icons a:hover {
-            background-color: var(--primary-color);
-        }
-
-        .copyright {
+            padding: 20px 50px;
+            background: var(--dark);
             text-align: center;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            color: #ccc;
+            color: var(--gray);
             font-size: 0.9rem;
+            border-top: 1px solid #333;
         }
-
+        
         /* Responsive Design */
-        @media (max-width: 992px) {
-            .slider-item {
-                min-width: 25%;
-            }
-            
-            .movie-item {
-                min-width: 180px;
-            }
-        }
-
         @media (max-width: 768px) {
-            .menu-toggle {
-                display: block;
+            header {
+                padding: 15px 20px;
             }
             
-            .nav-links {
-                position: fixed;
-                top: 70px;
-                left: -100%;
-                width: 80%;
-                height: calc(100vh - 70px);
-                background-color: var(--dark-color);
-                flex-direction: column;
-                align-items: center;
-                padding-top: 40px;
-                transition: left 0.3s ease;
+            .hero {
+                padding: 0 20px 30px;
+                height: 70vh;
             }
             
-            .nav-links.active {
-                left: 0;
+            .hero h1 {
+                font-size: 2.5rem;
             }
             
-            .nav-links li {
-                margin: 15px 0;
+            .section-title {
+                padding: 30px 20px 15px;
+                font-size: 1.5rem;
             }
             
-            .hero-title {
-                font-size: 2.2rem;
+            .slider-container, .movie-grid {
+                padding: 0 20px 30px;
             }
             
-            .slider-item {
-                min-width: 33.33%;
-            }
-            
-            .movie-item {
+            .movie-card {
                 min-width: 150px;
+                height: 90px;
             }
             
-            .footer-links {
-                gap: 20px;
+            footer {
+                padding: 20px;
             }
         }
-
-        @media (max-width: 576px) {
-            .hero-title {
-                font-size: 1.8rem;
+        
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 2rem;
             }
             
             .hero-buttons {
@@ -438,259 +354,142 @@
                 gap: 10px;
             }
             
-            .btn {
-                width: 100%;
-                text-align: center;
+            .movie-card {
+                min-width: 120px;
+                height: 70px;
             }
             
-            .slider-item {
-                min-width: 50%;
-            }
-            
-            .movie-item {
-                min-width: 130px;
-            }
-            
-            .footer-content {
-                flex-direction: column;
-            }
-            
-            .footer-links {
-                margin-top: 20px;
+            .movie-grid {
+                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+                gap: 15px;
             }
         }
     </style>
 </head>
 <body>
     <!-- Header -->
-    <header id="header">
-        <div class="container">
-            <nav class="navbar">
-                <a href="inicio.html" class="logo">ANTPLAY+<span style="color: var(--secondary-color)">+</span></a>
-                
-                <ul class="nav-links">
-                    <li><a href="inicio.html" class="active">Início</a></li>
-                    <li><a href="filmes.html">Filmes</a></li>
-                    <li><a href="cartaz.html">Natal</a></li>
-                </ul>
-                
-                <div class="user-actions">
-                    <div class="search-icon">
-                        <i class="fas fa-search"></i>
-                    </div>
-                    <div class="user-icon">
-                        <i class="fas fa-user-circle"></i>
-                    </div>
-                    <div class="menu-toggle">
-                        <i class="fas fa-bars"></i>
-                    </div>
-                </div>
-            </nav>
+    <header>
+        <a href="inicio.html" class="logo">AnT<span>Play</span>+</a>
+        <nav>
+            <ul>
+                <li><a href="inicio.html">Início</a></li>
+                <li><a href="filmes.html">Filmes</a></li>
+                <li><a href="cartaz.html">Cartaz</a></li>
+            </ul>
+        </nav>
+        <div class="user-actions">
+            <button>Pesquisar</button>
+            <button>Conta</button>
         </div>
     </header>
 
     <!-- Hero Section -->
     <section class="hero">
-        <div class="container">
-            <div class="hero-content">
-                <h1 class="hero-title">O melhor streaming em Portugal</h1>
-                <p class="hero-description">Descobre um mundo de entretenimento com vários de títulos para toda a família. Onde e quando quiseres.</p>
-                <div class="hero-buttons">
-                    <button class="btn btn-primary">Explorar catálogo</button>
-                    <button class="btn btn-secondary">Mais Informações</button>
-                </div>
+        <video class="hero-video" autoplay muted loop>
+            <source src="https://assets.codepen.io/3364143/Netflix_2.mp4" type="video/mp4">
+        </video>
+        <div class="hero-content">
+            <h1>Aventura nas Estrelas</h1>
+            <p>Um grupo de astronautas embarca em uma missão perigosa para salvar a humanidade. Descubra segredos cósmicos e enfrente desafios além da imaginação.</p>
+            <div class="hero-buttons">
+                <a href="#" class="btn btn-primary">Assistir</a>
+                <a href="#" class="btn btn-secondary">Mais Informações</a>
             </div>
         </div>
     </section>
 
     <!-- Featured Movies Slider -->
-    <section class="slider-section">
-        <h2 class="section-title">Em Destaque</h2>
-        <div class="container">
-            <div class="slider-container">
-                <div class="slider" id="featured-slider">
-                    <!-- Featured movies will be added here by JavaScript -->
-                </div>
-            </div>
-            <div class="slider-controls">
-                <button class="slider-btn" id="prev-slider">
-                    <i class="fas fa-chevron-left"></i>
-                </button>
-                <button class="slider-btn" id="next-slider">
-                    <i class="fas fa-chevron-right"></i>
-                </button>
-            </div>
+    <h2 class="section-title">Em Destaque</h2>
+    <div class="slider-container">
+        <div class="slider-nav slider-prev">‹</div>
+        <div class="slider" id="featuredSlider">
+            <div class="movie-card"><img src="https://assets.codepen.io/3364143/Netflix_1.jpg" alt="Filme"></div>
+            <div class="movie-card"><img src="https://assets.codepen.io/3364143/Netflix_3.jpg" alt="Filme"></div>
+            <div class="movie-card"><img src="https://assets.codepen.io/3364143/Netflix_4.jpg" alt="Filme"></div>
+            <div class="movie-card"><img src="https://assets.codepen.io/3364143/Netflix_5.jpg" alt="Filme"></div>
+            <div class="movie-card"><img src="https://assets.codepen.io/3364143/Netflix_6.jpg" alt="Filme"></div>
+            <div class="movie-card"><img src="https://assets.codepen.io/3364143/Netflix_7.jpg" alt="Filme"></div>
         </div>
-    </section>
+        <div class="slider-nav slider-next">›</div>
+    </div>
 
-    <!-- Popular Movies -->
-    <section class="movie-lists">
-        <h2 class="section-title">Populares na AntPlay+</h2>
-        <div class="container">
-            <div class="movie-row" id="popular-movies">
-                <!-- Popular movies will be added here by JavaScript -->
+    <!-- Movies Grid -->
+    <h2 class="section-title">Filmes Populares</h2>
+    <div class="movie-grid">
+        <div class="movie-item">
+            <img src="https://assets.codepen.io/3364143/Netflix_1.jpg" alt="Filme">
+            <div class="movie-info">
+                <div class="movie-title">Aventura nas Estrelas</div>
+                <div class="movie-meta">2025 • Ficção Científica</div>
             </div>
         </div>
-    </section>
+        <div class="movie-item">
+            <img src="https://assets.codepen.io/3364143/Netflix_3.jpg" alt="Filme">
+            <div class="movie-info">
+                <div class="movie-title">Reino das Sombras</div>
+                <div class="movie-meta">2025 • Fantasia</div>
+            </div>
+        </div>
+        <div class="movie-item">
+            <img src="https://assets.codepen.io/3364143/Netflix_4.jpg" alt="Filme">
+            <div class="movie-info">
+                <div class="movie-title">Perigo na Selva</div>
+                <div class="movie-meta">2025 • Aventura</div>
+            </div>
+        </div>
+        <div class="movie-item">
+            <img src="https://assets.codepen.io/3364143/Netflix_5.jpg" alt="Filme">
+            <div class="movie-info">
+                <div class="movie-title">Código Secreto</div>
+                <div class="movie-meta">2025 • Ação</div>
+            </div>
+        </div>
+        <div class="movie-item">
+            <img src="https://assets.codepen.io/3364143/Netflix_6.jpg" alt="Filme">
+            <div class="movie-info">
+                <div class="movie-title">Horizonte Dourado</div>
+                <div class="movie-meta">2025 • Drama</div>
+            </div>
+        </div>
+        <div class="movie-item">
+            <img src="https://assets.codepen.io/3364143/Netflix_7.jpg" alt="Filme">
+            <div class="movie-info">
+                <div class="movie-title">Revolução Tecnológica</div>
+                <div class="movie-meta">2025 • Ficção Científica</div>
+            </div>
+        </div>
+    </div>
 
     <!-- Christmas Movies -->
-    <section class="movie-lists">
-        <h2 class="section-title">Especial de Natal</h2>
-        <div class="container">
-            <div class="movie-row" id="christmas-movies">
-                <!-- Christmas movies will be added here by JavaScript -->
+    <h2 class="section-title">Filmes de Natal</h2>
+    <div class="movie-grid">
+        <div class="movie-item">
+            <img src="https://assets.codepen.io/3364143/Netflix_8.jpg" alt="Filme de Natal">
+            <div class="movie-info">
+                <div class="movie-title">Milagre de Natal</div>
+                <div class="movie-meta">2025 • Família</div>
             </div>
         </div>
-    </section>
-
-    <!-- Footer -->
-    <footer>
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-info">
-                    <div class="footer-logo">ANTPLAY+<span style="color: var(--secondary-color)">+</span></div>
-                    <p>O melhor serviço de streaming em Portugal</p>
-                    <div class="social-icons">
-                        <a href="#"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                        <a href="#"><i class="fab fa-youtube"></i></a>
-                    </div>
-                </div>
-                <div class="footer-links">
-                    <div class="footer-column">
-                        <h4>Navegação</h4>
-                        <ul>
-                            <li><a href="inicio.html">Início</a></li>
-                            <li><a href="filmes.html">Filmes</a></li>
-                            <li><a href="cartaz.html">Especial Natal</a></li>
-                        </ul>
-                    </div>
-                    <div class="footer-column">
-                        <h4>Suporte</h4>
-                        <ul>
-                            <li><a href="#">Centro de Ajuda</a></li>
-                            <li><a href="#">Termos de Utilização</a></li>
-                            <li><a href="#">Privacidade</a></li>
-                        </ul>
-                    </div>
-                    <div class="footer-column">
-                        <h4>Empresa</h4>
-                        <ul>
-                            <li><a href="#">Sobre Nós</a></li>
-                            <li><a href="#">Carreiras</a></li>
-                            <li><a href="#">Contactos</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="copyright">
-                <p>&copy; 2025 AntPlay+.</p>
+        <div class="movie-item">
+            <img src="https://assets.codepen.io/3364143/Netflix_9.jpg" alt="Filme de Natal">
+            <div class="movie-info">
+                <div class="movie-title">Presentes Mágicos</div>
+                <div class="movie-meta">2025 • Comédia</div>
             </div>
         </div>
-    </footer>
-
-    <script>
-        // Movie data
-        const movies = [
-            { id: 1, title: "Aventura Espacial", genre: "Ficção Científica", age: "12", year: "2023", image: "https://source.unsplash.com/random/300x450/?sci-fi,movie" }
-        ];
-
-        const christmasMovies = [
-            { id: 11, title: "Natal em Família", genre: "Família", age: "6", year: "2022", image: "https://source.unsplash.com/random/300x450/?christmas,movie" },
-            { id: 12, title: "Presentes Mágicos", genre: "Fantasia", age: "6", year: "2021", image: "https://source.unsplash.com/random/300x450/?christmas,magic" }
-        ];
-
-        // DOM elements
-        const featuredSlider = document.getElementById('featured-slider');
-        const popularMovies = document.getElementById('popular-movies');
-        const christmasMoviesContainer = document.getElementById('christmas-movies');
-        const prevBtn = document.getElementById('prev-slider');
-        const nextBtn = document.getElementById('next-slider');
-        const menuToggle = document.querySelector('.menu-toggle');
-        const navLinks = document.querySelector('.nav-links');
-        const header = document.getElementById('header');
-
-        // Generate movie card HTML
-        function createMovieCard(movie, isSlider = false) {
-            return `
-                <div class="${isSlider ? 'slider-item' : 'movie-item'}">
-                    <div class="movie-card">
-                        <img src="${movie.image}" alt="${movie.title}">
-                        <div class="movie-info">
-                            <h3 class="movie-title">${movie.title}</h3>
-                            <div class="movie-meta">
-                                <span>${movie.year}</span>
-                                <span>${movie.age}+</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `;
-        }
-
-        // Populate featured slider
-        movies.slice(0, 8).forEach(movie => {
-            featuredSlider.innerHTML += createMovieCard(movie, true);
-        });
-
-        // Populate popular movies
-        movies.forEach(movie => {
-            popularMovies.innerHTML += createMovieCard(movie);
-        });
-
-        // Populate christmas movies
-        christmasMovies.forEach(movie => {
-            christmasMoviesContainer.innerHTML += createMovieCard(movie);
-        });
-
-        // Slider functionality
-        let currentSlide = 0;
-        const slideWidth = document.querySelector('.slider-item').offsetWidth;
-        const totalSlides = document.querySelectorAll('.slider-item').length;
-        const visibleSlides = window.innerWidth >= 1200 ? 5 : 
-                             window.innerWidth >= 992 ? 4 : 
-                             window.innerWidth >= 768 ? 3 : 2;
-
-        function updateSlider() {
-            featuredSlider.style.transform = `translateX(-${currentSlide * slideWidth}px)`;
-        }
-
-        nextBtn.addEventListener('click', () => {
-            if (currentSlide < totalSlides - visibleSlides) {
-                currentSlide++;
-                updateSlider();
-            }
-        });
-
-        prevBtn.addEventListener('click', () => {
-            if (currentSlide > 0) {
-                currentSlide--;
-                updateSlider();
-            }
-        });
-
-        // Mobile menu toggle
-        menuToggle.addEventListener('click', () => {
-            navLinks.classList.toggle('active');
-        });
-
-        // Header scroll effect
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 100) {
-                header.classList.add('scrolled');
-            } else {
-                header.classList.remove('scrolled');
-            }
-        });
-
-        // Responsive slider adjustment
-        window.addEventListener('resize', () => {
-            const newSlideWidth = document.querySelector('.slider-item').offsetWidth;
-            if (newSlideWidth !== slideWidth) {
-                updateSlider();
-            }
-        });
-    </script>
-</body>
-</html>
+        <div class="movie-item">
+            <img src="https://assets.codepen.io/3364143/Netflix_10.jpg" alt="Filme de Natal">
+            <div class="movie-info">
+                <div class="movie-title">Noite de Inverno</div>
+                <div class="movie-meta">2025 • Romance</div>
+            </div>
+        </div>
+        <div class="movie-item">
+            <img src="https://assets.codepen.io/3364143/Netflix_11.jpg" alt="Filme de Natal">
+            <div class="movie-info">
+                <div class="movie-title">Férias de Inverno</div>
+                <div class="movie-meta">2025 • Família</div>
+            </div>
+        </div>
+        <div class="movie-item">
+            <img src="https://assets.codepen.io
