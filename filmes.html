@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Filmes - AnTPlay+</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4e67b1;
+            --secondary: #ba852a;
+            --dark: #141414;
+            --light: #ffffff;
+            --gray: #b3b3b3;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }
+        
+        body {
+            background-color: var(--dark);
+            color: var(--light);
+        }
+        
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 15px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            background: rgba(0,0,0,0.8);
+        }
+        
+        .logo {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: var(--light);
+            text-decoration: none;
+        }
+        
+        .logo span {
+            color: var(--primary);
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav li {
+            margin-left: 20px;
+        }
+        
+        nav a {
+            color: var(--light);
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: 400;
+            transition: 0.3s;
+        }
+        
+        nav a:hover {
+            color: var(--gray);
+        }
+        
+        .user-actions {
+            display: flex;
+            align-items: center;
+        }
+        
+        .user-actions button {
+            background: none;
+            border: none;
+            color: var(--light);
+            font-size: 1.1rem;
+            margin-left: 20px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        
+        .user-actions button:hover {
+            color: var(--gray);
+        }
+        
+        /* Main Content */
+        .main-content {
+            padding-top: 100px;
+            padding-bottom: 50px;
+        }
+        
+        .page-header {
+            padding: 0 50px 30px;
+        }
+        
+        .page-header h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+        }
+        
+        /* Filters */
+        .filters {
+            display: flex;
+            gap: 20px;
+            padding: 0 50px 30px;
+            flex-wrap: wrap;
+        }
+        
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .filter-label {
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+            color: var(--gray);
+        }
+        
+        .filter-options {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .filter-option {
+            padding: 8px 15px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 20px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        
+        .filter-option:hover, .filter-option.active {
+            background: var(--primary);
+        }
+        
+        /* Movies Grid */
+        .movies-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 20px;
+            padding: 0 50px;
+        }
+        
+        .movie-card {
+            position: relative;
+            border-radius: 5px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        
+        .movie-card:hover {
+            transform: scale(1.05);
+        }
+        
+        .movie-card img {
+            width: 100%;
+            aspect-ratio: 2/3;
+            object-fit: cover;
+        }
+        
+        .movie-info {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 100%);
+            padding: 15px;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: 0.3s;
+        }
+        
+        .movie-card:hover .movie-info {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .movie-title {
+            font-size: 1rem;
+            font-weight: 800;
+            margin-bottom: 5px;
+        }
+        
+        .movie-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            color: var(--gray);
+        }
+        
+        .age-rating {
+            background: var(--secondary);
+            color: var(--dark);
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-weight: 800;
+        }
+        
+        /* Footer */
+        footer {
+            padding: 20px 50px;
+            background: var(--dark);
+            text-align: center;
+            color: var(--gray);
+            font-size: 0.9rem;
+            border-top: 1px solid #333;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            header {
+                padding: 15px 20px;
+            }
+            
+            .main-content {
+                padding-top: 90px;
+            }
+            
+            .page-header, .filters, .movies-grid {
+                padding: 0 20px;
+            }
+            
+            .page-header h1 {
+                font-size: 2rem;
+            }
+            
+            .movies-grid {
+                grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+                gap: 15px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .page-header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .filter-options {
+                gap: 10px;
+            }
+            
+            .filter-option {
+                padding: 6px 12px;
+                font-size: 0.9rem;
+            }
+            
+            .movies-grid {
+                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <a href="inicio.html" class="logo">AnT<span>Play</span>+</a>
+        <nav>
+            <ul>
+                <li><a href="inicio.html">Início</a></li>
+                <li><a href="filmes.html">Filmes</a></li>
+                <li><a href="cartaz.html">Cartaz</a></li>
+            </ul>
+        </nav>
+        <div class="user-actions">
+            <button>Buscar</button>
+            <button>Conta</button>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="page-header">
+            <h1>Filmes</h1>
+            <p>Descubra os melhores filmes disponíveis na AnTPlay+</p>
+        </div>
+        
+        <!-- Filters -->
+        <div class="filters">
+            <div class="filter-group">
+                <div class="filter-label">Classificação Etária</div>
+                <div class="filter-options">
+                    <div class="filter-option active">Todos</div>
+                    <div class="filter-option">Livre</div>
+                    <div class="filter-option">10+</div>
+                    <div class="filter-option">12+</div>
+                    <div class="filter-option">14+</div>
+                    <div class="filter-option">16+</div>
+                    <div class="filter-option">18+</div>
+                </div>
+            </div>
+            
+            <div class="filter-group">
+                <div class="filter-label">Gênero</div>
+                <div class="filter-options">
+                    <div class="filter-option active">Todos</div>
+                    <div class="filter-option">Ação</div>
+                    <div class="filter-option">Aventura</div>
+                    <div class="filter-option">Comédia</div>
+                    <div class="filter-option">Drama</div>
+                    <div class="filter-option">Ficção Científica</div>
+                    <div class="filter-option">Fantasia</div>
+                    <div class="filter-option">Romance</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Movies Grid -->
+        <div class="movies-grid">
+            <div class="movie-card">
+                <img src="https://assets.codepen.io/3364143/Netflix_1.jpg" alt="Filme">
+                <div class="movie-info">
+                    <div class="movie-title">Aventura nas Estrelas</div>
+                    <div class="movie-meta">
+                        <span>2025</span>
+                        <span class="age-rating">12+</span>
+                    </div>
+                </div>
+            </div>
+            <div class="movie-card">
+                <img src="https://assets.codepen.io/3364143/Netflix_3.jpg" alt="Filme">
+                <div class="movie-info">
+                    <div class="movie-title">Reino das Sombras</div>
+                    <div class="movie-meta">
+                        <span>2025</span>
+                        <span class="age-rating">14+</span>
+                    </div>
+                </div>
+            </div>
+            <div class="movie-card">
+                <img src="https://assets.codepen.io/3364143/Netflix_4.jpg" alt="Filme">
+                <div class="movie-info">
+                    <div class="movie-title">Perigo na Selva</div>
+                    <div class="movie-meta">
+                        <span>2025</span>
+                        <span class="age-rating">Livre</span>
+                    </div>
+                </div>
+            </div>
+            <div class="movie-card">
+                <img src="https://assets.codepen.io/3364143/Netflix_5.jpg" alt="Filme">
+                <div class="movie-info">
+                    <div class="movie-title">Código Secreto</div>
+                    <div class="movie-meta">
+                        <span>2025</span>
+                        <span class="age-rating">16+</span>
+                    </div>
+                </div>
+            </div>
+            <div class="movie-card">
+                <img src="https://assets.codepen.io/3364143/Netflix_6.jpg" alt="Filme">
+                <div class="movie-info">
+                    <div class="movie-title">Horizonte Dourado</div>
+                    <div class="movie-meta">
+                        <span>2025</span>
+                        <span class="age-rating">12+</span>
+                    </div>
+                </div>
+            </div>
+            <div class="movie-card">
+                <img src="https://assets.codepen.io/3364143/Netflix_7.jpg" alt="Filme">
+                <div class="movie-info">
+                    <div class="movie-title">Revolução Tecnológica</div>
+                    <div class="movie-meta">
+                        <span>2025</span>
+                        <span class="age-rating">14+</span>
+                    </div>
+                </div>
+            </div>
+            <div class="movie-card">
+                <img src="https://assets.codepen.io/3364143/Netflix_2.jpg" alt="Filme">
+                <div class="movie-info">
+                    <div class="movie-title">Segredos do Passado</div>
+                    <div class="movie-meta">
+                        <span>2025</span>
+                        <span class="age-rating">18+</span>
+                    </div>
+                </div>
+            </div>
+            <div class="movie-card">
+                <img src="https://assets.codepen.io/3364143/Netflix_8.jpg" alt="Filme">
+                <div class="movie-info">
+                    <div class="movie-title">Milagre de Natal</div>
+                    <div class="movie-meta">
+                        <span>2025</span>
+                        <span class="age-rating">Livre</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        2025 AnTPlay+
+    </footer>
+
+    <script>
+        // Filter functionality
+        document.querySelectorAll('.filter-option').forEach(option => {
+            option.addEventListener('click', function() {
+                // Remove active class from siblings
+                this.parentNode.querySelectorAll('.filter-option').forEach(sib => {
+                    sib.classList.remove('active');
+                });
+                // Add active class to clicked option
+                this.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>
