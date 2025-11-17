@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <title>Filmes - Santa's Village</title>
+  <link rel="stylesheet" href="/style.css">
+  <link rel="icon" type="image/png" href="/favicon.png">
+</head>
+<body>
+  <header>
+    <h1>🎅 Santa's Village</h1>
+    <nav>
+      <a href="/inicio">Início</a>
+      <a href="/filmes">Filmes</a>
+      <a href="/atividades">Atividades</a>
+    </nav>
+  </header>
+
+  <main>
+    <h2>Ho! Ho! Ho! Cinema</h2>
+
+    <!-- Filme 1 -->
+    <div class="filme">
+      <h3>Natal Encantado</h3>
+      <video id="video1" width="640" controls>
+        <source src="https://drive.google.com/uc?export=download&id=ID_DO_VIDEO1" type="video/mp4">
+        <track src="https://drive.google.com/uc?export=download&id=ID_DAS_LEGENDAS1" kind="subtitles" srclang="pt" label="Português">
+        O teu navegador não suporta vídeo.
+      </video>
+      <button onclick="toggleSubtitles('video1')">Ativar/Desativar Legendas</button>
+    </div>
+
+    <!-- Filme 2 -->
+    <div class="filme">
+      <h3>A Magia da Neve</h3>
+      <video id="video2" width="640" controls>
+        <source src="https://drive.google.com/uc?export=download&id=ID_DO_VIDEO2" type="video/mp4">
+        <track src="https://drive.google.com/uc?export=download&id=ID_DAS_LEGENDAS2" kind="subtitles" srclang="pt" label="Português">
+      </video>
+      <button onclick="toggleSubtitles('video2')">Ativar/Desativar Legendas</button>
+    </div>
+
+  </main>
+
+  <footer>
+    <p>© 2025 Santa's Village by AventurasnaToita</p>
+  </footer>
+
+  <script src="/script.js"></script>
+</body>
+</html>
