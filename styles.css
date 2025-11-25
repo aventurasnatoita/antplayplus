@@ -149,3 +149,82 @@ body {
   .navbar ul { gap: 0.7rem; }
   .banner-carousel { max-width: 98vw; }
 }
+.catalog {
+  max-width: 800px;
+  margin: 2rem auto;
+}
+.filters {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+.catalog-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.7rem;
+}
+.catalog-card {
+  background: #232340;
+  border-radius: 1rem;
+  min-width: 150px;
+  cursor: pointer;
+  transition: transform 0.18s;
+  padding: 0.7rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+  text-align: center;
+}
+.catalog-card:hover {
+  transform: scale(1.08);
+  background: #21c1d6;
+  color: #181824;
+}
+.catalog-card img { border-radius: 1rem; max-width: 100%; }
+.content-individual {
+  max-width: 650px;
+  margin: 2rem auto;
+  background: #232340;
+  border-radius: 1rem;
+  padding: 2rem;
+}
+.content-banner {
+  width: 100%; border-radius: 1rem;
+}
+.content-actions { margin: 2rem 0; display: flex; gap: 1rem; }
+.content-actions button {
+  background: #21c1d6;
+  color: #fff;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 1.2rem;
+  cursor: pointer;
+  font-weight: 600;
+}
+.recommendations-row {
+  display: flex; gap:1rem; overflow-x:auto; padding-bottom:1rem;
+}
+.profile-page {
+  text-align: center;
+  margin: 2rem auto;
+  max-width: 650px;
+}
+.profiles-list {
+  display: flex; gap:2rem; justify-content:center; margin:2rem 0;
+}
+.profile-create input, .profile-create select {
+  margin: 0.7rem 0.6rem 0.7rem 0;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  border: none;
+  background: #232340;
+  color: #fff;
+}
+.profile-create button {
+  background: #21c1d6;
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1.2rem;
+  border-radius: 1rem;
+  cursor: pointer;
+}
+.help-page { max-width:600px; margin:2rem auto; padding:2rem; background:#232340; border-radius:1rem;}
+.help-page h4 { color:#21c1d6; margin-top:1.3rem;}
