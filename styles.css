@@ -228,3 +228,17 @@ body {
 }
 .help-page { max-width:600px; margin:2rem auto; padding:2rem; background:#232340; border-radius:1rem;}
 .help-page h4 { color:#21c1d6; margin-top:1.3rem;}
+.minha-lista { max-width:800px; margin:2rem auto;}
+.minha-lista .catalog-card button {
+  margin: 0.4rem 0.5rem 0.1rem 0;
+  background: #21c1d6;
+  border:none;
+  border-radius:0.7rem;
+  color:#fff;
+  padding: 0.3rem 0.7rem;
+  cursor:pointer;
+  font-size:0.95rem;
+}
+.minha-lista .catalog-card button:last-child {
+  background: #ff4f4f;
+}
