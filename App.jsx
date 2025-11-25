@@ -6,6 +6,7 @@ import Catalog from "./pages/Catalog";
 import Content from "./pages/Content";
 import Profile from "./pages/Profile";
 import Help from "./pages/Help";
+import MinhaLista from "./pages/MinhaLista";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route path="/content/:id" element={<Conteúdo />} />
           <Route path="/perfil" element={<Perfil />} />
           <Route path="/ajuda" element={<Ajuda />} />
+          <Route path="/minha-lista" element={<Lista />} />
         </Routes>
       </main>
       <Footer />
